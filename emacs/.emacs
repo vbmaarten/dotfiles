@@ -33,10 +33,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default)))
  '(global-command-log-mode t)
  '(package-selected-packages
    (quote
-    (zenburn-theme magit vscode-dark-plus-theme doom-modeline ivy command-log-mode use-package))))
+    (gruvbox-theme zenburn-theme magit vscode-dark-plus-theme doom-modeline ivy command-log-mode use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -48,6 +51,6 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (use-package ivy)
 (ivy-mode 1)
-(use-package zenburn-theme)
-(load-theme 'zenburn t)
+(use-package gruvbox-theme)
+(load-theme 'gruvbox t)
 
