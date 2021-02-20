@@ -36,7 +36,7 @@
  '(global-command-log-mode t)
  '(package-selected-packages
    (quote
-    (magit vscode-dark-plus-theme doom-modeline ivy command-log-mode use-package))))
+    (zenburn-theme magit vscode-dark-plus-theme doom-modeline ivy command-log-mode use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -48,4 +48,6 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (use-package ivy)
 (ivy-mode 1)
+(use-package zenburn-theme)
+(load-theme 'zenburn t)
 
