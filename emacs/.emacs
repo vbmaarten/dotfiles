@@ -11,13 +11,17 @@
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-	                 ("org" . "https://orgmode.org/elpa")))
+	                 ("org" . "https://orgmode.org/elpa")
+			 ("elpa" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
 
 (unless (package-installed-p 'gruvbox-theme)
   (package-install 'gruvbox-theme))
@@ -37,7 +41,7 @@
 (unless (package-installed-p 'ivy)
   (package-install 'ivy))
 
-1(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (use-package magit)
 (use-package gruvbox-theme)
 (use-package org)
@@ -74,7 +78,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (ivy projectile org-bullets magit gruvbox-theme use-package))))
+    (which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -95,3 +99,9 @@
   :bind-keymap
   ("C-c p" . projectile-command-map)
   :init)
+
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 0.3))
