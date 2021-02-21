@@ -10,7 +10,8 @@
 (setq visible-bell t)
 (require 'package)
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")))
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+	                 ("org" . "https://orgmode.org/elpa")))
 
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
@@ -27,9 +28,11 @@
 (unless (package-installed-p 'gruvbox-theme)
   (package-install 'gruvbox-theme))
 
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+1(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (use-package magit)
 (use-package gruvbox-theme)
+(use-package org)
+
 (load-theme 'gruvbox t)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
