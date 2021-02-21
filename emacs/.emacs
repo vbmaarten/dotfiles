@@ -22,10 +22,11 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
-
+(use-package doom-themes)
+(load-theme 'doom-palenight t)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (use-package magit)
-(use-package gruvbox-theme)
+
 (use-package org)
 
 (use-package ivy
@@ -52,7 +53,7 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
-(load-theme 'gruvbox t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -60,7 +61,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
+    (doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
