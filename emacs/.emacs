@@ -23,24 +23,6 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
-(unless (package-installed-p 'gruvbox-theme)
-  (package-install 'gruvbox-theme))
-
-(unless (package-installed-p 'magit)
-  (package-install 'magit ))
-
-(unless (package-installed-p 'gruvbox-theme)
-  (package-install 'gruvbox-theme))
-
-(unless (package-installed-p 'org-bullets)
-  (package-install 'org-bullets))
-
-(unless (package-installed-p 'projectile)
-  (package-install 'projectile))
-
-(unless (package-installed-p 'ivy)
-  (package-install 'ivy))
-
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (use-package magit)
 (use-package gruvbox-theme)
