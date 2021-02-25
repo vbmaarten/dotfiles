@@ -8,6 +8,7 @@
 (menu-bar-mode -1)
 
 (setq visible-bell t)
+(setq ring-bell-function 'asc:flash-background)
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -59,9 +60,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(bind-key-column-widths '(22 . 40))
  '(package-selected-packages
-   (quote
-    (doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
+   '(no-littering typescript-mode calc-at-point windresize treemacs counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -83,8 +84,21 @@
   ("C-c p" . projectile-command-map)
   :init)
 
+(setq projectile-project-search-path '("~/Projects/"))
+
 (use-package which-key
   :init (which-key-mode)
   :diminish which-key-mode
   :config
   (setq which-key-idle-delay 0.3))
+
+;; NOTE: If you want to move everything out of the ~/.emacs.d folder
+;; reliably, set `user-emacs-directory` before loading no-littering!
+;(setq user-emacs-directory "~/.cache/emacs")
+
+(use-package no-littering)
+
+;; no-littering doesn't set this by default so we must place
+;; auto save files in the same path as it uses for sessions
+(setq auto-save-file-name-transforms
+      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
