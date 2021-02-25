@@ -45,7 +45,7 @@
  '(bind-key-column-widths (quote (22 . 40)))
  '(package-selected-packages
    (quote
-    (powerline no-littering typescript-mode calc-at-point windresize treemacs counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
+    (wn-mode wm-mode powerline no-littering typescript-mode calc-at-point windresize treemacs counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -89,3 +89,7 @@
 (use-package powerline
   :init
   (powerline-default-theme))
+
+(use-package wn-mode
+  :init
+  (wn-mode))
