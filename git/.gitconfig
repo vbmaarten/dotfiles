@@ -1,0 +1,5 @@
+[user]
+	email = myemail 
+	name = Maarten van Beek
+[core]
+	excludesFile = ~/.gitignore_global
