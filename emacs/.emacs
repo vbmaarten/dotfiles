@@ -42,9 +42,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(bind-key-column-widths '(22 . 40))
+ '(bind-key-column-widths (quote (22 . 40)))
  '(package-selected-packages
-   '(no-littering typescript-mode calc-at-point windresize treemacs counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package)))
+   (quote
+    (powerline no-littering typescript-mode calc-at-point windresize treemacs counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -84,3 +85,7 @@
 ;; auto save files in the same path as it uses for sessions
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+
+(use-package powerline
+  :init
+  (powerline-default-theme))
