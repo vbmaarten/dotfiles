@@ -45,7 +45,7 @@
  '(bind-key-column-widths (quote (22 . 40)))
  '(package-selected-packages
    (quote
-    (wn-mode wm-mode powerline no-littering typescript-mode calc-at-point windresize treemacs counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
+    (treemacs-icons-dired treemacs-projectile treemacs package-safe-delete all-the-icons wn-mode wm-mode powerline no-littering typescript-mode calc-at-point windresize counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -93,3 +93,26 @@
 (use-package wn-mode
   :init
   (wn-mode))
+
+(use-package all-the-icons
+  :init
+    (unless (member "all-the-icons" (font-family-list))
+    (all-the-icons-install-fonts t)))
+
+(use-package treemacs
+  :demand t
+  :config
+  (treemacs-git-mode 'simple)
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode t)
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(use-package treemacs-icons-dired
+  :after (treemacs dired)
+  :config (treemacs-icons-dired-mode))
+
+(use-package treemacs-all-the-icons
+  :after (treemacs all-the-icons))
