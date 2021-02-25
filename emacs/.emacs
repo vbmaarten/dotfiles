@@ -1,5 +1,5 @@
 (setq inhibit-startup-message t)
-
+(defalias 'yes-or-no-p 'y-or-n-p)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
