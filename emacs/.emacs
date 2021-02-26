@@ -42,10 +42,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(bind-key-column-widths (quote (22 . 40)))
+ '(bind-key-column-widths '(22 . 40))
+ '(custom-safe-themes
+   '("3e27c4a8de1ea4e0e7195815ef9ddba53a7dd5cdd1279b0309e9f8e9553be3b7" default))
  '(package-selected-packages
-   (quote
-    (treemacs-icons-dired treemacs-projectile treemacs package-safe-delete all-the-icons wn-mode wm-mode powerline no-littering typescript-mode calc-at-point windresize counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))))
+   '(vscode-dark-plus-theme treemacs-icons-dired treemacs-projectile treemacs package-safe-delete all-the-icons wn-mode wm-mode powerline no-littering typescript-mode calc-at-point windresize counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -101,11 +102,15 @@
 
 (use-package treemacs
   :demand t
+  :init
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
   :config
   (treemacs-git-mode 'simple)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode t)
+  
+  )
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
@@ -114,5 +119,5 @@
   :after (treemacs dired)
   :config (treemacs-icons-dired-mode))
 
-(use-package treemacs-all-the-icons
-  :after (treemacs all-the-icons))
+
+(add-hook 'projectile-after-switch-project-hook 'treemacs-display-current-project-exclusively)
