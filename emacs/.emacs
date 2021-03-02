@@ -46,7 +46,8 @@
  '(custom-safe-themes
    '("3e27c4a8de1ea4e0e7195815ef9ddba53a7dd5cdd1279b0309e9f8e9553be3b7" default))
  '(package-selected-packages
-   '(vscode-dark-plus-theme treemacs-icons-dired treemacs-projectile treemacs package-safe-delete all-the-icons wn-mode wm-mode powerline no-littering typescript-mode calc-at-point windresize counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package)))
+   '(lsp-ivy lsp-ui lsp-mode vscode-dark-plus-theme treemacs-icons-dired treemacs-projectile treemacs package-safe-delete all-the-icons wn-mode wm-mode powerline no-littering typescript-mode calc-at-point windresize counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))
+ '(treemacs-git-mode 'magit))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -121,3 +122,40 @@
 
 
 (add-hook 'projectile-after-switch-project-hook 'treemacs-display-current-project-exclusively)
+
+(defun projectile-shell ()
+  (interactive)
+  (when (projectile-project-root)
+    (let* ((default-directory (projectile-project-root))
+           (buffer-name (format "*shell*<%s>" (projectile-project-name)))
+           (buffer (or (get-buffer buffer-name)
+                       (shell buffer-name))))
+      (switch-to-buffer buffer))))
+
+(defun efs/lsp-mode-setup ()
+  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
+  (lsp-headerline-breadcrumb-mode))
+
+(use-package lsp-mode
+  :commands (lsp lsp-deferred)
+  :hook (lsp-mode . efs/lsp-mode-setup)
+  :init
+  (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'bottom))
+
+(use-package lsp-ivy)
+
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+
+
