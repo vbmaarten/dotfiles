@@ -38,6 +38,10 @@
   :config
   (load-theme 'doom-palenight t))
 
+(use-package doom-modeline
+  :config
+  (doom-modeline-mode))
+
 
 (use-package which-key
   :init (which-key-mode)
@@ -152,7 +156,9 @@
   :config
   (setq typescript-indent-level 2))
 
+(use-package git-gutter)
 
-;; Disable line numbers for several buffers
-(dolist (mode '(org-mode-hook term-mode-hook eshell-mode-hook))
-  (add-hook mode(lambda() (display-line-numbers-mode 0))))
+(use-package company)
+
+(add-hook 'prog-mode-hook 'git-gutter-mode)
+(add-hook 'prog-mode-hook 'company-mode)
