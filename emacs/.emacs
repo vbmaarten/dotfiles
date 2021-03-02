@@ -1,3 +1,4 @@
+;; Configure some default emacs settings
 (setq inhibit-startup-message t)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (scroll-bar-mode -1)
@@ -9,6 +10,13 @@
 
 (setq visible-bell t)
 (setq ring-bell-function 'asc:flash-background)
+
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
+;; Setup package to install use package
 (require 'package)
 
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -18,14 +26,32 @@
 (package-initialize)
 (unless package-archive-contents (package-refresh-contents))
 
+;; Install and configure  use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
-(use-package doom-themes)
-(load-theme 'doom-palenight t)
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; Install packages
+(use-package doom-themes
+  :config
+  (load-theme 'doom-palenight t))
+
+
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-kgey-mode
+  :config
+  (setq which-key-idle-delay 0.3))
+
+(use-package counsel
+  :config
+  (ivy-mode 1)
+  :bind (("C-s" . swiper-isearch)
+	 ("M-x" . counsel-M-x)
+	 ("C-x b" . ivy-switch-buffer)))
+
 (use-package magit)
 
 (use-package org)
@@ -37,30 +63,6 @@
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(bind-key-column-widths '(22 . 40))
- '(custom-safe-themes
-   '("3e27c4a8de1ea4e0e7195815ef9ddba53a7dd5cdd1279b0309e9f8e9553be3b7" default))
- '(package-selected-packages
-   '(lsp-ivy lsp-ui lsp-mode vscode-dark-plus-theme treemacs-icons-dired treemacs-projectile treemacs package-safe-delete all-the-icons wn-mode wm-mode powerline no-littering typescript-mode calc-at-point windresize counsel doom-themes doom-palenight which-key ivy projectile org-bullets magit gruvbox-theme use-package))
- '(treemacs-git-mode 'magit))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-(column-number-mode)
-(global-display-line-numbers-mode t)
-
-(dolist (mode '(org-mode-hook term-mode-hook eshell-mode-hook))
-  (add-hook mode(lambda() (display-line-numbers-mode 0))))
-
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
@@ -70,12 +72,6 @@
   :init)
 
 (setq projectile-project-search-path '("~/Projects/"))
-
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq which-key-idle-delay 0.3))
 
 ;; NOTE: If you want to move everything out of the ~/.emacs.d folder
 ;; reliably, set `user-emacs-directory` before loading no-littering!
@@ -88,10 +84,6 @@
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
-(use-package powerline
-  :init
-  (powerline-default-theme))
-
 (use-package wn-mode
   :init
   (wn-mode))
@@ -103,14 +95,26 @@
 
 (use-package treemacs
   :demand t
-  :init
-  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)
   :config
   (treemacs-git-mode 'simple)
   (treemacs-follow-mode t)
   (treemacs-filewatch-mode t)
   (treemacs-fringe-indicator-mode t)
-  
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)  
+  :bind
+  (("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+
+(use-package treemacs-magit
+  :after (treemacs))
+
+(use-package treemacs-all-the-icons
+  :after (treemacs all-the-icons)
+  :config
+  (treemacs-load-theme "all-the-icons")
   )
 
 (use-package treemacs-projectile
@@ -122,15 +126,6 @@
 
 
 (add-hook 'projectile-after-switch-project-hook 'treemacs-display-current-project-exclusively)
-
-(defun projectile-shell ()
-  (interactive)
-  (when (projectile-project-root)
-    (let* ((default-directory (projectile-project-root))
-           (buffer-name (format "*shell*<%s>" (projectile-project-name)))
-           (buffer (or (get-buffer buffer-name)
-                       (shell buffer-name))))
-      (switch-to-buffer buffer))))
 
 (defun efs/lsp-mode-setup ()
   (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
@@ -158,4 +153,6 @@
   (setq typescript-indent-level 2))
 
 
-
+;; Disable line numbers for several buffers
+(dolist (mode '(org-mode-hook term-mode-hook eshell-mode-hook))
+  (add-hook mode(lambda() (display-line-numbers-mode 0))))
