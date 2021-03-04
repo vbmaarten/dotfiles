@@ -168,3 +168,7 @@
 
 (general-define-key
  "C-c w" 'windresize)
+
+(use-package json-mode)
+(add-to-list 'auto-mode-alist '("\\.json\\'" . 'json-mode))
+
