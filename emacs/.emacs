@@ -162,3 +162,7 @@
 
 (add-hook 'prog-mode-hook 'git-gutter-mode)
 (add-hook 'prog-mode-hook 'company-mode)
+
+(use-package json-mode)
+(add-to-list 'auto-mode-alist '("\\.json\\'" . 'json-mode))
+
