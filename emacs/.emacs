@@ -162,3 +162,9 @@
 
 (add-hook 'prog-mode-hook 'git-gutter-mode)
 (add-hook 'prog-mode-hook 'company-mode)
+
+(use-package general)
+(use-package windresize)
+
+(general-define-key
+ "C-c w" 'windresize)
