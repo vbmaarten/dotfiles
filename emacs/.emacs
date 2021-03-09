@@ -175,6 +175,5 @@
   :bind ("M-o" . ace-window))
 
 (use-package ace-jump-mode
-  :bind (("C-c j c" . ace-jump-mode)
-	 ("C-c j l" . ace-jump-line-mode)
+  :bind ("C-c j" . ace-jump-mode
 	 ))
