@@ -171,3 +171,8 @@
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.json\\'" . 'json-mode))
 
+(use-package ace-window
+  :bind ("M-o" . ace-window))
+
+(use-package ace-jump-mode
+  :bind ("C-c j" . ace-jump-mode))
