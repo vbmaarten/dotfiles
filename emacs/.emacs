@@ -183,3 +183,8 @@
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets)
+
+(use-package sublimity
+  :init
+  (require 'sublimity-scroll)
+  (sublimity-mode 1))
