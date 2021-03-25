@@ -14,8 +14,6 @@
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
 (column-number-mode)
-(global-display-line-numbers-mode t)
-
 ;; Setup package to install use package
 (require 'package)
 
@@ -59,6 +57,7 @@
 (use-package magit)
 
 (use-package org)
+(setq org-startup-indented t)
 
 (use-package org-bullets
   :after org
@@ -66,10 +65,12 @@
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
+(use-package pdf-tools)
 
 (use-package projectile
   :diminish projectile-mode
   :config (projectile-mode)
+  :after evil
   :custom ((projectile-completion-system 'ivy))
   :bind-keymap
   ("C-c p" . projectile-command-map)
@@ -158,16 +159,52 @@
 
 (use-package git-gutter)
 
+
+(use-package typescript-mode
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . lsp-deferred)
+  :config
+  (setq typescript-indent-level 2))
+
+(use-package git-gutter)
+
 (use-package company)
 
 (add-hook 'prog-mode-hook 'git-gutter-mode)
 (add-hook 'prog-mode-hook 'company-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 
 (use-package general)
 (use-package windresize)
 
 (general-define-key
  "C-c w" 'windresize)
+
+(use-package eyebrowse
+  :demand
+  :init
+  (eyebrowse-mode 1)
+  :config
+  (setq eyebrowse-new-workspace t)
+ )
+
+(general-define-key
+ :states '(normal visual insert emacs)
+ :prefix "C-SPC"
+ "0" '(eyebrowse-switch-to-window-config-0 :which-key "Default workspace") 
+ "1" '(eyebrowse-switch-to-window-config-1 :which-key "Workspace 1")
+ "2" '(eyebrowse-switch-to-window-config-2 :which-key "Workspace 2")
+ "3" '(eyebrowse-switch-to-window-config-3 :which-key "Workspace 3")
+ "4" '(eyebrowse-switch-to-window-config-4 :which-key "Workspace 4")
+ "5" '(eyebrowse-switch-to-window-config-5 :which-key "Workspace 5")
+ "6" '(eyebrowse-switch-to-window-config-6 :which-key "Workspace 6")
+ "7" '(eyebrowse-switch-to-window-config-7 :which-key "Workspace 7")
+ "8" '(eyebrowse-switch-to-window-config-8 :which-key "Workspace 8")
+ "9" '(eyebrowse-switch-to-window-config-9 :which-key "Workspace 9")
+ "t" '(:ignore t :which-key "Toggles")
+ "tt" 'treemacs
+ "a" 'avy-goto-char
+ )
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.json\\'" . 'json-mode))
 
@@ -188,3 +225,26 @@
   :init
   (require 'sublimity-scroll)
   (sublimity-mode 1))
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  :config
+  (evil-mode 1) 
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+  (evil-set-initial-state 'doc-view-mode 'emacs)
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
