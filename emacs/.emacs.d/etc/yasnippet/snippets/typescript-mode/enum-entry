@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: enum-entry 
+# key: ene 
+# --
+$1 = '$1';
