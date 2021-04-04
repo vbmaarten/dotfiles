@@ -72,8 +72,6 @@
   :config (projectile-mode)
   :after evil
   :custom ((projectile-completion-system 'ivy))
-  :bind-keymap
-  ("C-c p" . projectile-command-map)
   :init)
 
 (setq projectile-project-search-path '("~/Projects/"))
@@ -124,11 +122,12 @@
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
-
 (use-package treemacs-icons-dired
   :after (treemacs dired)
   :config (treemacs-icons-dired-mode))
 
+(use-package treemacs-evil
+  :after treemacs)
 
 (add-hook 'projectile-after-switch-project-hook 'treemacs-display-current-project-exclusively)
 
@@ -177,9 +176,6 @@
 (use-package general)
 (use-package windresize)
 
-(general-define-key
- "C-c w" 'windresize)
-
 (use-package eyebrowse
   :demand
   :init
@@ -201,25 +197,26 @@
  "7" '(eyebrowse-switch-to-window-config-7 :which-key "Workspace 7")
  "8" '(eyebrowse-switch-to-window-config-8 :which-key "Workspace 8")
  "9" '(eyebrowse-switch-to-window-config-9 :which-key "Workspace 9")
+ "f" 'find-file
  "t" '(:ignore t :which-key "Toggles")
  "tt" 'treemacs
- "a" 'avy-goto-char
+ "a" 'avy-goto-char-2
+ "s" 'avy-goto-char
+ "p" 'projectile-command-map
+ "o" 'ace-window
+ "j" 'linum-relative-toggle
+ "g" 'magit-status
  )
+
+
 (use-package json-mode)
 (add-to-list 'auto-mode-alist '("\\.json\\'" . 'json-mode))
 
-(use-package ace-window
-  :bind ("M-o" . ace-window))
-
-(use-package ace-jump-mode
-  :bind ("C-c j" . ace-jump-mode
-	 ))
-
+(use-package ace-window)
+(use-package linum-relative)
 (use-package yasnippet
   :init
   (yas-global-mode 1))
-
-(use-package yasnippet-snippets)
 
 (use-package sublimity
   :init
@@ -242,9 +239,102 @@
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+  (evil-set-initial-state 'dashboard-mode 'normal)
+  )
+
+(use-package evil-surround
+  :after evil
+  :config
+  ( global-evil-surround-mode 1))
+
+(setq doc-view-continuous t)
 
 (use-package evil-collection
   :after evil
   :config
   (evil-collection-init))
+
+(use-package ob-typescript
+  :init
+  (org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((typescript . t)
+   ))
+ )
+;;; typescript.el --- typescript support
+;;; Commentary:
+;;; Code:
+
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'typescript-mode-hook 'flycheck-mode))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1))
+
+(use-package company
+  :ensure t
+  :config
+  (setq company-show-numbers t)
+  (setq company-tooltip-align-annotations t)
+  (setq company-tooltip-flip-when-above t)
+  (global-company-mode))
+
+(use-package company-quickhelp
+  :ensure t
+  :init
+  (company-quickhelp-mode 1)
+  (use-package pos-tip
+    :ensure t))
+
+(use-package web-mode
+  :ensure t
+  :mode (("\\.html?\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode)
+         ("\\.jsx\\'" . web-mode))
+  :config
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-block-padding 2
+        web-mode-comment-style 2
+
+        web-mode-enable-css-colorization t
+        web-mode-enable-auto-pairing t
+        web-mode-enable-comment-keywords t
+        web-mode-enable-current-element-highlight t
+        )
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (string-equal "tsx" (file-name-extension buffer-file-name))
+		(setup-tide-mode))))
+  (flycheck-add-mode 'typescript-tslint 'web-mode))
+
+(use-package typescript-mode
+  :ensure t
+  :config
+  (setq typescript-indent-level 2)
+  (add-hook 'typescript-mode #'subword-mode))
+
+(use-package tide
+  :init
+  :ensure t
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
+
+(provide 'typescript)
+;;; typescript.el ends here
+
+(setq abbrev-file-name "~/.emacs.d/abbrev.el")
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
