@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: forEach 
+# key: fe 
+# --
+$1.forEach(($2) => {$0})
