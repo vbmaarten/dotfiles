@@ -34,7 +34,7 @@
 ;; Install packages
 (use-package doom-themes
   :config
-  (load-theme 'doom-palenight t))
+  (load-theme 'doom-dark+ t))
 
 (use-package doom-modeline
   :config
