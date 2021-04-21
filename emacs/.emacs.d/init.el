@@ -74,7 +74,7 @@
   :custom ((projectile-completion-system 'ivy))
   :init)
 
-(setq projectile-project-search-path '("~/Projects/"))
+(setq projectile-project-search-path '("~/Projects/" "~/Documents"))
 
 ;; NOTE: If you want to move everything out of the ~/.emacs.d folder
 ;; reliably, set `user-emacs-directory` before loading no-littering!
@@ -338,3 +338,22 @@
 (define-key yas-minor-mode-map (kbd "<tab>") nil)
 (define-key yas-minor-mode-map (kbd "TAB") nil)
 (define-key yas-minor-mode-map (kbd "SPC") yas-maybe-expand)
+
+(use-package fira-code-mode
+  :custom (fira-code-mode-disabled-ligatures '("[]" "x"))  ; ligatures you don't want
+  :hook prog-mode) 
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(vimish-fold fira-code-mode web-mode company-quickhelp ob-typescript evil-collection evil-surround evil sublimity yasnippet linum-relative eyebrowse treemacs-evil pdf-tools wn-mode windresize which-key vscode-dark-plus-theme use-package treemacs-projectile treemacs-magit treemacs-icons-dired treemacs-all-the-icons tide smooth-scrolling powerline org-bullets no-littering lsp-ui lsp-ivy json-mode git-gutter general doom-themes doom-modeline counsel company calc-at-point ace-jump-mode)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(put 'narrow-to-region 'disabled nil)
