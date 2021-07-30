@@ -7,6 +7,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'justinmk/vim-sneak'
+Plug 'unblevable/quick-scope'
 
 call plug#end()
 
