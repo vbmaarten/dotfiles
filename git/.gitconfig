@@ -1,5 +1,14 @@
+# This is Git's per-user configuration file.
 [user]
 	email = myemail 
 	name = Maarten van Beek
 [core]
-	excludesFile = ~/.gitignore_global
+	editor = vim
+	excludesfile = /Users/maartenvanbeek/.gitignore_global
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	a = add
+	l = log
