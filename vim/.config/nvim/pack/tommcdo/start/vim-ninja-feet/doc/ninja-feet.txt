@@ -1,0 +1,82 @@
+*ninja-feet.txt*  Strike from the cursor to either end of a text object
+
+Author: Tom McDonald <http://tommcdo.com>
+License: Same terms as Vim itself (see |license|)
+
+This plugin is only available if 'compatible' is not set.
+
+INTRODUCTION                                    *ninja-feet*
+
+ninja-feet.vim provides the means to operator from the cursor to either
+the beginning or end of a text object.
+
+The mappings presently only work in |Operator-pending| mode.
+
+MAPPINGS                                        *ninja-feet-mappings*
+
+                                                *o_[* *ninja-left-foot*
+{operator}[count][{motion}
+                        Perform {operator} from the cursor to the beginning
+                        of the text object defined by {motion}. Only text
+                        object motions (starting with `i` or `a`) are valid.
+
+
+                                                *o_]* *ninja-right-foot*
+{operator}[count]]{motion}
+                        Perform {operator} from the cursor to the end of the
+                        text object defined by {motion}. Only text object
+                        motions (starting with `i` or `a`) are valid.
+
+                                                *z[* *ninja-insert*
+z[{motion}              Enter |Insert| mode at the beginning of {motion}. For
+                        |characterwise| motions, this is like pressing `i`;
+                        for |linewise| motions, this is like pressing `O`.
+
+
+                                                *z]* *ninja-append*
+z]{motion}              Enter |Insert| mode at the end of {motion}. For
+                        |characterwise| motions, this is like pressing `a`;
+                        for |linewise| motions, this is like pressing `o`.
+
+
+EXAMPLES                                        *ninja-feet-examples*
+
+    d]i(                Delete from the cursor to the end of a parenthetical
+                        term.
+
+    c[a"                Change from the cursor to the beginning of a quoted
+                        string (including the `"` character).
+
+    z[ip                Enter Insert mode on a new line at the beginning of
+                        a paragraph.
+
+    z]at                Enter Insert mode after the current closing tag (in
+                        XML or HTML).
+
+CUSTOM OPERATORS AND TEXT OBJECTS       *ninja-custom-operators-and-objects*
+
+ninja-feet.vim can also work with custom operators and text objects. Consider
+the following example using lion.vim (https://github.com/tommcdo/vim-lion) and
+dentures.vim (https://github.com/qstrahl/vim-dentures):
+
+    gl]ii=              Align from the cursor to the end of the indent block by
+                        the `=` character.
+
+Caution: Only a true ninja can steal a lion's dentures.
+
+Note if the custom text object does not start with an `i` and/or `a` and you
+want to use it with ninja.vim, you have to make it explicitly available.
+For example, the custom text object for comments provided by vim-commentary
+(https://github.com/tpope/vim-commentary) is `gc`. By default `d[gc` does not
+work. Add following two lines to your vimrc to define the ninja versions of
+`gc` >
+
+    omap [gc <Plug>(ninja-left-foot)gc
+    omap ]gc <Plug>(ninja-right-foot)gc
+
+ISSUES AND TODO                                 *ninja-feet-issues*
+                                                *ninja-feet-todo*
+
+See https://github.com/tommcdo/vim-ninja-feet/issues for bugs and issues.
+
+ vim:tw=78:ts=8:ft=help:norl:
