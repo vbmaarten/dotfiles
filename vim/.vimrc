@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'justinmk/vim-sneak'
 Plug 'unblevable/quick-scope'
+Plug 'tommcdo/vim-ninja-feet'
 
 call plug#end()
 
