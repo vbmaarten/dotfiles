@@ -4,7 +4,7 @@
 	name = Maarten van Beek
 [core]
 	editor = vim
-	excludesfile = /Users/maartenvanbeek/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [alias]
 	co = checkout
 	br = branch
