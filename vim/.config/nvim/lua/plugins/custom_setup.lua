@@ -239,7 +239,6 @@ return {
       })
     end,
   },
-  { "ellisonleao/glow.nvim", config = true, cmd = "Glow" },
   {
     "vimwiki/vimwiki",
     keys = { "<leader>ww", "<leader>wt", "<leader>wd" },
