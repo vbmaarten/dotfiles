@@ -41,6 +41,10 @@ end, { desc = "Spotify show current song" })
 
 map("n", "<leader>id", ':r! date "+\\%Y-\\%m-\\%d" <CR>', { desc = "Insert date" })
 
+-- Vimwiki extra keymaps
+map("n", "<leader>wa", ":VimwikiAll2HTML <CR>", { desc = "Vimwiki: export HTML" })
+map("n", "<leader>wb", ":Vimwiki2HTMLBrowse <CR>", { desc = "Vimwiki: browse HTML" })
+
 map("n", "<leader>uh", function()
   Util.float_term({ "hnt" }, { cwd = Util.get_root(), esc_esc = false, ctrl_hjkl = false })
 end, { desc = "Hacker news" })
