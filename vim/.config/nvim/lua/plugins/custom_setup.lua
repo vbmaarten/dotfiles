@@ -1,5 +1,12 @@
 return {
   {
+    "lvim-tech/lvim-colorscheme",
+    init = function()
+      require("lvim-colorscheme").setup()
+    end,
+    priority = 1000,
+  },
+  {
     "catppuccin/nvim",
     lazy = false,
     name = "catoppuccin",
@@ -202,6 +209,9 @@ return {
     end,
   },
   {
+    "alec-gibson/nvim-tetris",
+  },
+  {
     "petertriho/nvim-scrollbar",
     config = function()
       require("scrollbar").setup({
@@ -225,6 +235,15 @@ return {
     end,
   },
   {
+    "dimaportenko/telescope-simulators.nvim",
+    config = function()
+      require("simulators").setup({
+        android_emulator = false,
+        apple_simulator = true,
+      })
+    end,
+  },
+  {
     "xiyaowong/telescope-emoji.nvim",
     config = function()
       require("telescope").load_extension("emoji")
@@ -239,12 +258,13 @@ return {
       })
     end,
   },
+  --
   {
     "vimwiki/vimwiki",
     keys = { "<leader>ww", "<leader>wt", "<leader>wd" },
-    init = function()
-      -- vim.g.vimwiki_list = { { path = "~/vimwiki", syntax = "markdown", ext = ".md" } }
-    end,
+  },
+  {
+    "itchyny/calendar.vim",
   },
   { "folke/zen-mode.nvim" },
   {
