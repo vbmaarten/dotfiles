@@ -243,6 +243,55 @@ return {
       })
     end,
   },
+  { "jbyuki/quickmath.nvim" },
+  {
+    "mxsdev/nvim-dap-vscode-js",
+    config = function()
+      require("dap-vscode-js").setup({
+        -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+        -- debugger_path = "(runtimedir)/site/pack/packer/opt/vscode-js-debug", -- Path to vscode-js-debug installation.
+        debugger_path = "/Users/maartenvanbeek/Downloads/vscode-js-debug",
+        -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+        adapters = { "pwa-node", "pwa-chrome", "node-terminal" }, -- which adapters to register in nvim-dap
+        -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
+        -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
+        -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
+      })
+      for _, language in ipairs({ "typescript", "javascript" }) do
+        require("dap").configurations[language] = {
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Launch file",
+            program = "${file}",
+            cwd = "${workspaceFolder}",
+          },
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach",
+            processId = require("dap.utils").pick_process,
+            cwd = "${workspaceFolder}",
+          },
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Debug Jest Tests",
+            -- trace = true, -- include debugger info
+            runtimeExecutable = "node",
+            runtimeArgs = {
+              "./node_modules/jest/bin/jest.js",
+              "--runInBand",
+            },
+            rootPath = "${workspaceFolder}",
+            cwd = "${workspaceFolder}",
+            console = "integratedTerminal",
+            internalConsoleOptions = "neverOpen",
+          },
+        }
+      end
+    end,
+  },
   {
     "xiyaowong/telescope-emoji.nvim",
     config = function()
@@ -267,6 +316,31 @@ return {
     "itchyny/calendar.vim",
   },
   { "folke/zen-mode.nvim" },
+  {
+    "m4xshen/hardtime.nvim",
+    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    opts = {
+      notification = false,
+      disabled_keys = {},
+    },
+  },
+  {
+    "psebaraj/tomatotimer.nvim",
+    requires = "MunifTanjim/nui.nvim",
+    config = function()
+      require("tomatotimer").setup({
+        time_work = 20,
+        time_break_short = 5,
+        time_break_long = 20,
+        timers_to_long_break = 4,
+      })
+      require("lualine").setup({
+        sections = {
+          lualine_c = { "filename", require("tomatotimer").statusline },
+        },
+      })
+    end,
+  },
   {
     "LazyVim/LazyVim",
     opts = {
